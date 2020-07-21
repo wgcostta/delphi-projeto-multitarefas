@@ -58,9 +58,9 @@ inherited Tarefa2: TTarefa2
   end
   object btnIniciar: TButton
     Left = 552
-    Top = 24
+    Top = 8
     Width = 114
-    Height = 39
+    Height = 55
     Action = ACT_INICIAR
     TabOrder = 2
   end

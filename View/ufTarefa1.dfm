@@ -71,15 +71,15 @@ inherited Tarefa1: TTarefa1
   end
   object btnGerarSQL: TButton
     Left = 530
-    Top = 83
+    Top = 133
     Width = 145
-    Height = 30
+    Height = 55
     Action = ACT_GERARSQL
     TabOrder = 3
   end
   object spQuery1: TspQuery
     Left = 544
-    Top = 128
+    Top = 80
   end
   object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
     Left = 528
