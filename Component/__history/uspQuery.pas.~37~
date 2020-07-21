@@ -2,6 +2,7 @@ unit uspQuery;
 
 interface
 
+
 uses
   FireDAC.Stan.Intf,
   FireDAC.Stan.Option,
@@ -17,6 +18,7 @@ uses
   FireDAC.Comp.Client,
   System.Classes,
   FireDAC.VCLUI.Wait;
+
 
 type
   TspQuery = class(TFDQuery)
@@ -41,7 +43,7 @@ type
   end;
 
 
-procedure Register;
+
 
 
 implementation
@@ -49,13 +51,7 @@ implementation
 uses
    SysUtils;
 
-procedure Register;
-begin
-  RegisterComponents('spComponentes', [TspQuery]);
-end;
-
 { TspQuery }
-
 constructor TspQuery.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -76,7 +72,6 @@ end;
 function TspQuery.GeraSQL : string;
 var
   iContador : Integer;
-  SQL : String;
 begin
     if spTabelas.Count > 1 then
        raise Exception.Create('Não permitido informar mais de uma tabela.')
@@ -84,29 +79,35 @@ begin
        raise Exception.Create('Necessário informar uma tabela.');
 
     if spColunas.Count = 0 then
-       spColunas.Text := '*';
+       spColunas.Text := 'SELECT *'
+    else
+       spColunas[0] := 'SELECT ' +  spColunas[0];
 
      for iContador := 0 to Pred(spColunas.Count) do
      begin
-        if SQL <> EmptyStr then
-           SQL := SQL + ',' + sLineBreak;
+        if Self.SQL.Text <> EmptyStr then
+           Self.SQL.Text := Self.SQL.Text + ',' + sLineBreak;
 
-         SQL := SQL + spColunas[iContador]
+         Self.SQL.Text := Self.SQL.Text + spColunas[iContador]
      end;
 
-     SQL := SQL + ' FROM ' + spTabelas[0];
+     Self.SQL.Text := Self.SQL.Text + ' FROM ' + spTabelas[0];
 
      for iContador := 0 to Pred(spCondicoes.Count) do
      begin
         if spCondicoes[iContador] <> EmptyStr then
         begin
           if iContador = 0 then
-             SQL := SQL + ' WHERE ' + spCondicoes[iContador]
+             Self.SQL.Text := Self.SQL.Text + ' WHERE ' + spCondicoes[iContador]
           else
-             SQL := SQL + ' AND ' + spCondicoes[iContador]
+             Self.SQL.Text := Self.SQL.Text + ' AND ' + spCondicoes[iContador]
         end;
      end;
-     Result := SQL;
+
+     Self.SQL.Text := StringReplace(AnsiUpperCase(Self.SQL.Text),',,',',',[rfReplaceAll,rfIgnoreCase]);
+     Result := Self.SQL.Text;
 end;
+
+
 
 end.

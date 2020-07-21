@@ -73,6 +73,8 @@ function TspQuery.GeraSQL : string;
 var
   iContador : Integer;
 begin
+   Self.SQL.Text := EmptyStr;
+
     if spTabelas.Count > 1 then
        raise Exception.Create('Não permitido informar mais de uma tabela.')
     else if spTabelas.Count = 0 then
