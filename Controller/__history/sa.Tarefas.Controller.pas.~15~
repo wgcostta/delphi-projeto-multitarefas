@@ -1,0 +1,108 @@
+unit sa.Tarefas.Controller;
+
+interface
+
+uses
+  sa.Tarefas.Interfaces,
+  Datasnap.DBClient;
+
+type
+    TSaTarefasController = class(TInterfacedObject,ISaTarefasController)
+    private
+      FcdsRegistros: TClientDataSet;
+      constructor Create;
+      destructor Destroy; override;
+      { private declarations }
+    protected
+      { protected declarations }
+      property cdsRegistros: TClientDataSet read FcdsRegistros write FcdsRegistros;
+    public
+      class function New: ISaTarefasController;
+      function setDataSet(cdsRegistros : TClientDataSet) : ISaTarefasController;
+      function calcularDivisoes : string;
+      function carregarRegistros : TClientDataSet;
+      { public declarations }
+    published
+      { published declarations }
+    end;
+
+implementation
+
+uses
+  Data.DB,
+  SysUtils;
+
+{ TSaTarefasController }
+
+function TSaTarefasController.calcularDivisoes: string;
+var
+   valorTotal, valorRegistroAnterior : Currency;
+begin
+   Result := EmptyStr;
+   valorTotal := 0;
+   valorRegistroAnterior := 0;
+   try
+      cdsRegistros.DisableControls;
+      cdsRegistros.First;
+      while not cdsRegistros.Eof do
+      begin
+        if valorRegistroAnterior > 0 then
+           valorTotal := valorTotal + (cdsRegistros.FieldByName('VALOR').AsCurrency / valorRegistroAnterior);
+
+        valorRegistroAnterior := cdsRegistros.FieldByName('VALOR').AsCurrency;
+        cdsRegistros.Next;
+      end;
+   finally
+      cdsRegistros.EnableControls;
+   end;
+
+   Result := CurrToStrF(valorTotal, ffCurrency, 2) ;
+end;
+
+function TSaTarefasController.carregarRegistros: TClientDataSet;
+var
+  iContador : Integer;
+begin
+   cdsRegistros.Close;
+   cdsRegistros.FieldDefs.Add('IDPROJETO',ftInteger);
+   cdsRegistros.FieldDefs.Add('NOMEPROJETO',ftString,100);
+   cdsRegistros.FieldDefs.Add('VALOR',ftCurrency);
+   cdsRegistros.IndexFieldNames := 'IDPROJETO';
+   cdsRegistros.CreateDataSet;
+
+   for iContador := 1 to 10 do
+   begin
+      cdsRegistros.Append;
+      cdsRegistros.FieldByName('IDPROJETO').AsInteger  := iContador;
+      cdsRegistros.FieldByName('NOMEPROJETO').AsString := 'Projeto ' + iContador.ToString;
+      cdsRegistros.FieldByName('VALOR').AsCurrency     := iContador * 10;
+      cdsRegistros.Post;
+   end;
+
+   Result := cdsRegistros;
+end;
+
+constructor TSaTarefasController.Create;
+begin
+
+end;
+
+destructor TSaTarefasController.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TSaTarefasController.New: ISaTarefasController;
+begin
+   Result := Self.Create;
+end;
+
+function TSaTarefasController.setDataSet(
+  cdsRegistros: TClientDataSet): ISaTarefasController;
+begin
+   Result := Self;
+   Self.FcdsRegistros := cdsRegistros;
+end;
+
+end.

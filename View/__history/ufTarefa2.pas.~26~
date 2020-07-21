@@ -1,0 +1,86 @@
+unit ufTarefa2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ChildWin, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TTarefa2 = class(TMDIChild)
+    edtTempo: TEdit;
+    edtContadorThread: TEdit;
+    ProgressBar1: TProgressBar;
+    Button1: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+  private
+    FMyThread: TThread;
+    property  MyThread: TThread read FMyThread write FMyThread;
+    procedure processarThread;
+    procedure startProgressBar;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fTarefa2: TTarefa2;
+
+implementation
+
+{$R *.dfm}
+
+procedure TTarefa2.Button1Click(Sender: TObject);
+begin
+  inherited;
+   processarThread;
+end;
+
+procedure TTarefa2.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  inherited;
+  MyThread.Terminate;
+  MyThread.Free;
+end;
+
+procedure TTarefa2.processarThread;
+var
+  iContadorThread, iContadorMiliSegundos : Integer;
+begin
+  for iContadorThread := 0 to StrToInt(edtContadorThread.Text) do
+  begin
+      try
+        MyThread := TThread.CreateAnonymousThread(startProgressBar);
+//        MyThread.FreeOnTerminate := true;
+        MyThread.Start;
+     except
+        on E: Exception do
+        begin
+          ShowMessage('Ocorreu um erro no processamento');
+        end;
+     end;
+  end;
+
+end;
+
+procedure TTarefa2.startProgressBar;
+var
+  iContador, iValorMaximo : Integer;
+begin
+   randomize;
+   iValorMaximo := 0;
+   iValorMaximo := StrToInt(edtContadorThread.Text) * 100;
+   Memo1.lines.Add(FMyThread.ThreadID.ToString + ' - Iniciando processamento');
+   for iContador := 0 to iValorMaximo do
+   begin
+      Memo1.lines.Add(Round(random(StrToInt(edtTempo.Text))));
+      sleep(Round(random(StrToInt(edtTempo.Text))));
+      ProgressBar1.Position := ProgressBar1.Position + iContador;
+   end;
+   Memo1.lines.Add(FMyThread.ThreadID.ToString + ' - Processamento Finalizado');
+end;
+
+end.

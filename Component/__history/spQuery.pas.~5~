@@ -1,0 +1,56 @@
+unit spQuery;
+
+interface
+
+uses
+  FireDAC.Stan.Intf,
+  FireDAC.Stan.Option,
+  FireDAC.Stan.Param,
+  FireDAC.Stan.Error,
+  FireDAC.DatS,
+  FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf,
+  FireDAC.Stan.Async,
+  FireDAC.DApt,
+  Data.DB,
+  FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client,
+  System.Classes;
+
+type
+  TspQuery = class(TFDQuery)
+  private
+    FspCondicoes: TStringList;
+    FspColunas: TStringList;
+    FspTabelas: TStringList;
+
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    function GeraSQL : Boolean;
+    { public declarations }
+  published
+    property spCondicoes: TStringList read FspCondicoes write FspCondicoes;
+    property spColunas: TStringList read FspColunas write FspColunas;
+    property spTabelas: TStringList read FspTabelas write FspTabelas;
+    { published declarations }
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('spComponentes', [TspQuery]);
+end;
+
+{ TspQuery }
+
+function TspQuery.GeraSQL: Boolean;
+begin
+    Result := True;
+end;
+
+end.

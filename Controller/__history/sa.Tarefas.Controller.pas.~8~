@@ -1,0 +1,51 @@
+unit sa.Tarefas.Controller;
+
+interface
+
+uses
+  sa.Tarefas.Interfaces,
+  Datasnap.DBClient;
+
+type
+    TSaTarefasController = class(TInterfacedObject,ISaTarefasController)
+    private
+      constructor Create;
+      destructor Destroy; override;
+      { private declarations }
+    protected
+      { protected declarations }
+    public
+      class function New: ISaTarefasController;
+      function setDataSet(cdsRegistros : TClientDataSet) : ISaTarefasController;
+      function calcularDivisoes : string;
+      { public declarations }
+    published
+      { published declarations }
+    end;
+
+implementation
+
+{ TSaTarefasController }
+
+function TSaTarefasController.calcularDivisoes: string;
+begin
+   //
+end;
+
+constructor TSaTarefasController.Create;
+begin
+
+end;
+
+destructor TSaTarefasController.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TSaTarefasController.New: ISaTarefasController;
+begin
+   Result := Self.Create;
+end;
+
+end.

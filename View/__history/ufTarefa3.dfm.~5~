@@ -1,0 +1,94 @@
+inherited Tarefa3: TTarefa3
+  Caption = 'MDIChild2'
+  ClientHeight = 561
+  ClientWidth = 674
+  WindowState = wsMaximized
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  ExplicitWidth = 690
+  ExplicitHeight = 600
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel [0]
+    Left = 450
+    Top = 465
+    Width = 89
+    Height = 13
+    Caption = 'N'#250'mero de Thered'
+  end
+  object Label2: TLabel [1]
+    Left = 423
+    Top = 497
+    Width = 116
+    Height = 13
+    Caption = 'Tempo m'#225'x. Milisegunds'
+  end
+  inherited Memo1: TMemo
+    Top = 520
+    Width = 674
+    Height = 41
+    Align = alBottom
+    TabOrder = 3
+    Visible = False
+    ExplicitTop = 520
+    ExplicitWidth = 674
+    ExplicitHeight = 41
+  end
+  object edtTempo: TEdit
+    Left = 545
+    Top = 494
+    Width = 121
+    Height = 21
+    NumbersOnly = True
+    TabOrder = 1
+  end
+  object edtContadorThread: TEdit
+    Left = 545
+    Top = 462
+    Width = 121
+    Height = 21
+    NumbersOnly = True
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 545
+    Top = 431
+    Width = 121
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 16
+    Width = 674
+    Height = 369
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        Title.Caption = 'idProjeto'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        Title.Caption = 'NomeProjeto'
+        Width = 400
+        Visible = True
+      end
+      item
+        Expanded = False
+        Title.Caption = 'Valor'
+        Width = 80
+        Visible = True
+      end>
+  end
+end

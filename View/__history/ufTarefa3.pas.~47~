@@ -1,0 +1,119 @@
+unit ufTarefa3;
+
+interface
+
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  ChildWin,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
+  Data.DB,
+  Vcl.Grids,
+  Vcl.DBGrids,
+  Datasnap.DBClient, sa.Tarefas.Controller, System.Actions, Vcl.ActnList;
+
+type
+  TTarefa3 = class(TMDIChild)
+    edtTotalDivisoes: TEdit;
+    edtTotal: TEdit;
+    btnObterTotal: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    DBGrid1: TDBGrid;
+    btnObterDivisoes: TButton;
+    ActionList1: TActionList;
+    ACT_OBTERTOTAL: TAction;
+    ACT_CARREGARREGISTROS: TAction;
+    ACT_OBTERDIVISOES: TAction;
+    procedure btnObterTotalClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnObterDivisoesClick(Sender: TObject);
+
+  private
+    cdsTarefas : TClientDataSet;
+    dsTarefas  : TDataSource;
+    procedure processarTarefa;
+    procedure processarTotal;
+    procedure processarDivisoes;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fTarefa3: TTarefa3;
+
+implementation
+
+{$R *.dfm}
+
+
+
+procedure TTarefa3.btnObterDivisoesClick(Sender: TObject);
+begin
+  inherited;
+  processarDivisoes;
+end;
+
+procedure TTarefa3.btnObterTotalClick(Sender: TObject);
+begin
+  inherited;
+   processarTotal;
+end;
+
+procedure TTarefa3.FormCreate(Sender: TObject);
+begin
+  inherited;
+   cdsTarefas := TClientDataSet.Create(Self);
+   dsTarefas  := TDataSource.Create(Self);
+end;
+
+procedure TTarefa3.FormDestroy(Sender: TObject);
+begin
+  inherited;
+   FreeAndNil(cdsTarefas);
+   FreeAndNil(dsTarefas);
+end;
+
+procedure TTarefa3.FormShow(Sender: TObject);
+begin
+  inherited;
+   processarTarefa;
+end;
+
+procedure TTarefa3.processarDivisoes;
+begin
+   edtTotalDivisoes.Text := TSaTarefasController.New
+                              .setDataSet(cdsTarefas)
+                              .calcularDivisoes;
+end;
+
+procedure TTarefa3.processarTarefa;
+begin
+   TSaTarefasController.New
+                    .setDataSet(cdsTarefas)
+                    .carregarRegistros;
+
+   dsTarefas.DataSet := cdsTarefas;
+   DBGrid1.DataSource := dsTarefas;
+end;
+
+procedure TTarefa3.processarTotal;
+
+begin
+    edtTotal.Text := TSaTarefasController.New
+                    .setDataSet(cdsTarefas)
+                    .calcularValorTotal;
+end;
+
+end.

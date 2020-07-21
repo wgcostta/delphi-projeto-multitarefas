@@ -1,0 +1,151 @@
+unit ufTarefa3;
+
+interface
+
+uses
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  ChildWin,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
+  Data.DB,
+  Vcl.Grids,
+  Vcl.DBGrids,
+  Datasnap.DBClient;
+
+type
+  TTarefa3 = class(TMDIChild)
+    edtTotalDivisoes: TEdit;
+    edtTotal: TEdit;
+    btnObterTotal: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    DBGrid1: TDBGrid;
+    btnObterDivisoes: TButton;
+    procedure btnObterTotalClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnObterDivisoesClick(Sender: TObject);
+
+  private
+    cdsTarefas : TClientDataSet;
+    dsTarefas  : TDataSource;
+    procedure processarTarefa;
+    procedure processarTotal;
+    procedure processarDivisoes;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fTarefa3: TTarefa3;
+
+implementation
+
+{$R *.dfm}
+
+
+
+procedure TTarefa3.btnObterDivisoesClick(Sender: TObject);
+begin
+  inherited;
+  processarDivisoes;
+end;
+
+procedure TTarefa3.btnObterTotalClick(Sender: TObject);
+begin
+  inherited;
+   processarTotal;
+end;
+
+procedure TTarefa3.FormCreate(Sender: TObject);
+begin
+  inherited;
+   cdsTarefas := TClientDataSet.Create(Self);
+   dsTarefas  := TDataSource.Create(Self);
+end;
+
+procedure TTarefa3.FormDestroy(Sender: TObject);
+begin
+  inherited;
+   FreeAndNil(cdsTarefas);
+   FreeAndNil(dsTarefas);
+end;
+
+procedure TTarefa3.FormShow(Sender: TObject);
+begin
+  inherited;
+   processarTarefa;
+end;
+
+procedure TTarefa3.processarDivisoes;
+var
+   valorTotal, valorRegistroAnterior : Currency;
+begin
+   valorTotal := 0;
+   valorRegistroAnterior := 0;
+
+   cdsTarefas.First;
+   while not cdsTarefas.Eof do
+   begin
+      if valorRegistroAnterior > 0 then
+         valorTotal := valorTotal + (cdsTarefas.FieldByName('VALOR').AsCurrency / valorRegistroAnterior);
+
+      valorRegistroAnterior := cdsTarefas.FieldByName('VALOR').AsCurrency;
+      cdsTarefas.Next;
+   end;
+
+   edtTotalDivisoes.Text := CurrToStrF(valorTotal, ffCurrency, 2) ;
+end;
+
+procedure TTarefa3.processarTarefa;
+var
+  iContador : Integer;
+begin
+   cdsTarefas.Close;
+   cdsTarefas.FieldDefs.Add('IDPROJETO',ftInteger);
+   cdsTarefas.FieldDefs.Add('NOMEPROJETO',ftString,100);
+   cdsTarefas.FieldDefs.Add('VALOR',ftCurrency);
+   cdsTarefas.IndexFieldNames := 'IDPROJETO';
+   cdsTarefas.CreateDataSet;
+
+   for iContador := 1 to 10 do
+   begin
+      cdsTarefas.Append;
+      cdsTarefas.FieldByName('IDPROJETO').AsInteger  := iContador;
+      cdsTarefas.FieldByName('NOMEPROJETO').AsString := 'Projeto ' + iContador.ToString;
+      cdsTarefas.FieldByName('VALOR').AsCurrency     := iContador * 10;
+      cdsTarefas.Post;
+   end;
+
+   dsTarefas.DataSet := cdsTarefas;
+   DBGrid1.DataSource := dsTarefas;
+
+end;
+
+procedure TTarefa3.processarTotal;
+var
+   valorTotal : Currency;
+begin
+    valorTotal := 0;
+
+    cdsTarefas.First;
+    while not cdsTarefas.Eof do
+    begin
+       valorTotal := valorTotal + cdsTarefas.FieldByName('VALOR').AsCurrency;
+       cdsTarefas.Next;
+    end;
+
+    edtTotal.Text := CurrToStrF(valorTotal, ffCurrency, 2) ;
+end;
+
+end.

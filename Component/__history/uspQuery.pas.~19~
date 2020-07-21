@@ -1,0 +1,113 @@
+unit uspQuery;
+
+interface
+
+uses
+  FireDAC.Stan.Intf,
+  FireDAC.Stan.Option,
+  FireDAC.Stan.Param,
+  FireDAC.Stan.Error,
+  FireDAC.DatS,
+  FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf,
+  FireDAC.Stan.Async,
+  FireDAC.DApt,
+  Data.DB,
+  FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client,
+  System.Classes,
+  FireDAC.VCLUI.Wait;
+
+type
+  TspQuery = class(TFDQuery)
+  private
+    FspCondicoes: TStringList;
+    FspColunas: TStringList;
+    FspTabelas: TStringList;
+
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    procedure GeraSQL ;
+     constructor Create(AOwner: TComponent); override;
+     destructor Destroy; override;
+    { public declarations }
+  published
+    property spCondicoes: TStringList read FspCondicoes write FspCondicoes;
+    property spColunas: TStringList read FspColunas write FspColunas;
+    property spTabelas: TStringList read FspTabelas write FspTabelas;
+    { published declarations }
+  end;
+
+
+procedure Register;
+
+
+implementation
+
+uses
+   SysUtils;
+
+procedure Register;
+begin
+  RegisterComponents('spComponentes', [TspQuery]);
+end;
+
+{ TspQuery }
+
+constructor TspQuery.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  spCondicoes := TStringList.Create;
+  spColunas   := TStringList.Create;
+  spTabelas   := TStringList.Create;
+  Self.SQL := TStrings.Create;
+end;
+
+destructor TspQuery.Destroy;
+begin
+  spCondicoes.Free;
+  spColunas.Free;
+  spTabelas.Free;
+  inherited;
+end;
+
+procedure TspQuery.GeraSQL;
+var
+  iContador : Integer;
+  sCondicoes : String;
+begin
+    if spTabelas.Count > 1 then
+       raise Exception.Create('Não permitido informar mais de uma tabela.');
+
+    if spColunas.Count = 0 then
+       spColunas.Text := '*';
+
+    Self.SQL.Clear;
+    Self.SQL.Add('Texte');
+
+     for iContador := 0 to Pred(spColunas.Count) do
+     begin
+        if Self.SQL.Text <> EmptyStr then
+           Self.SQL.Text := Self.SQL.Text + ',' + sLineBreak;
+
+         Self.SQL.Text := Self.SQL.Text + spColunas[iContador]
+     end;
+
+    Self.SQL.Text := Self.SQL.Text + ' FROM ' + spTabelas[0];
+
+     for iContador := 0 to Pred(spCondicoes.Count) do
+     begin
+        if spCondicoes[iContador] <> EmptyStr then
+        begin
+          if iContador = 0 then
+             Self.SQL.Text := Self.SQL.Text + ' WHERE ' + spCondicoes[iContador]
+          else
+             Self.SQL.Text := Self.SQL.Text + ' AND ' + spCondicoes[iContador]
+        end;
+     end;
+
+end;
+
+end.

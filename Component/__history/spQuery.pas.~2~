@@ -1,0 +1,34 @@
+unit spQuery;
+
+interface
+
+uses
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
+  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TspQuery = class(TFDQuery)
+  private
+    FspCondicoes: Boolean;
+    FspColunas: Boolean;
+    FspTabelas: Boolean;
+    { private declarations }
+  protected
+    { protected declarations }
+  public
+    { public declarations }
+
+  published
+
+  property spCondicoes: Boolean read FspCondicoes write FspCondicoes;
+  property spColunas: Boolean read FspColunas write FspColunas;
+  property spTabelas: Boolean read FspTabelas write FspTabelas;
+
+    { published declarations }
+  end;
+
+
+implementation
+
+end.
