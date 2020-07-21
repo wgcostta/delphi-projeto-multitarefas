@@ -11,10 +11,10 @@ type
     edtTempo: TEdit;
     edtContadorThread: TEdit;
     ProgressBar1: TProgressBar;
-    Button1: TButton;
+    btnIniciar: TButton;
     Label1: TLabel;
     Label2: TLabel;
-    procedure Button1Click(Sender: TObject);
+    procedure btnIniciarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FMyThread: TThread;
@@ -33,7 +33,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TTarefa2.Button1Click(Sender: TObject);
+procedure TTarefa2.btnIniciarClick(Sender: TObject);
 begin
   inherited;
    processarThread;
@@ -43,13 +43,25 @@ procedure TTarefa2.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
     MyThread.Terminate;
-   //FreeAndNil(MyThread);
+
 end;
 
 procedure TTarefa2.processarThread;
 var
   iContadorThread, iContadorMiliSegundos : Integer;
 begin
+   if edtTempo.Text = EmptyStr then
+   begin
+      ShowMessage('Informe um tempo em MiliSegundos');
+      edtTempo.SetFocus;
+   end;
+
+   if edtContadorThread.Text = EmptyStr then
+   begin
+      ShowMessage('Informe a quantidade de Threads');
+      edtContadorThread.SetFocus;
+   end;
+
   ProgressBar1.Position :=  0;
   for iContadorThread := 0 to StrToInt(edtContadorThread.Text) do
   begin

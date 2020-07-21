@@ -44,6 +44,7 @@ inherited Tarefa1: TTarefa1
     Width = 683
     Height = 156
     Align = alBottom
+    TabOrder = 4
     ExplicitTop = 219
     ExplicitWidth = 683
     ExplicitHeight = 156
@@ -53,21 +54,21 @@ inherited Tarefa1: TTarefa1
     Top = 19
     Width = 161
     Height = 169
-    TabOrder = 1
+    TabOrder = 0
   end
   object memoTabelas: TMemo
     Left = 184
     Top = 19
     Width = 161
     Height = 169
-    TabOrder = 2
+    TabOrder = 1
   end
   object memoCondicoes: TMemo
     Left = 363
     Top = 19
     Width = 161
     Height = 169
-    TabOrder = 3
+    TabOrder = 2
   end
   object btnGerarSQL: TButton
     Left = 560
@@ -75,7 +76,7 @@ inherited Tarefa1: TTarefa1
     Width = 115
     Height = 25
     Caption = 'Gerar SQL'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = btnGerarSQLClick
   end
   object spQuery1: TspQuery
