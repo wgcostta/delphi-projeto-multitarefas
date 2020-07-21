@@ -2,6 +2,7 @@ unit uspQuery;
 
 interface
 
+
 uses
   FireDAC.Stan.Intf,
   FireDAC.Stan.Option,
@@ -17,6 +18,7 @@ uses
   FireDAC.Comp.Client,
   System.Classes,
   FireDAC.VCLUI.Wait;
+
 
 type
   TspQuery = class(TFDQuery)
@@ -41,7 +43,7 @@ type
   end;
 
 
-procedure Register;
+
 
 
 implementation
@@ -49,13 +51,7 @@ implementation
 uses
    SysUtils;
 
-procedure Register;
-begin
-  RegisterComponents('spComponentes', [TspQuery]);
-end;
-
 { TspQuery }
-
 constructor TspQuery.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -108,7 +104,9 @@ begin
              SQL := SQL + ' AND ' + spCondicoes[iContador]
         end;
      end;
-     Result := SQL;
+
+     SQL := StringReplace(SQL,',,',',',[rfReplaceAll,rfIgnoreCase]);
+     Result := AnsiUpperCase(SQL);
 end;
 
 end.

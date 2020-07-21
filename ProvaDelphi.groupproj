@@ -9,6 +9,9 @@
         <Projects Include="spComponentes.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="spComponentesDT.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="spComponentes:Make">
         <MSBuild Projects="spComponentes.dproj" Targets="Make"/>
     </Target>
+    <Target Name="spComponentesDT">
+        <MSBuild Projects="spComponentesDT.dproj"/>
+    </Target>
+    <Target Name="spComponentesDT:Clean">
+        <MSBuild Projects="spComponentesDT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="spComponentesDT:Make">
+        <MSBuild Projects="spComponentesDT.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ProvaDelphiApp;spComponentes"/>
+        <CallTarget Targets="ProvaDelphiApp;spComponentes;spComponentesDT"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ProvaDelphiApp:Clean;spComponentes:Clean"/>
+        <CallTarget Targets="ProvaDelphiApp:Clean;spComponentes:Clean;spComponentesDT:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ProvaDelphiApp:Make;spComponentes:Make"/>
+        <CallTarget Targets="ProvaDelphiApp:Make;spComponentes:Make;spComponentesDT:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

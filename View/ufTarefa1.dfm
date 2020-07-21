@@ -1,7 +1,6 @@
 inherited Tarefa1: TTarefa1
   Left = 195
   Top = 110
-  AutoSize = True
   Caption = 'MDIChild1'
   ClientHeight = 375
   ClientWidth = 683
@@ -43,7 +42,7 @@ inherited Tarefa1: TTarefa1
     Top = 219
     Width = 683
     Height = 156
-    Align = alBottom
+    Align = alNone
     TabOrder = 4
     ExplicitTop = 219
     ExplicitWidth = 683
@@ -71,10 +70,10 @@ inherited Tarefa1: TTarefa1
     TabOrder = 2
   end
   object btnGerarSQL: TButton
-    Left = 560
+    Left = 530
     Top = 83
-    Width = 115
-    Height = 25
+    Width = 145
+    Height = 30
     Caption = 'Gerar SQL'
     TabOrder = 3
     OnClick = btnGerarSQLClick

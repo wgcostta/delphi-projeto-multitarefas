@@ -44,6 +44,7 @@ begin
     spQuery1.spTabelas.Text := memoTabelas.Text;
     spQuery1.spCondicoes.Text := memoCondicoes.Text;
     Memo1.Text := spQuery1.GeraSQL;
+    spQuery1.SQL.Text := Memo1.Text;
   except
     on E: Exception do
     begin

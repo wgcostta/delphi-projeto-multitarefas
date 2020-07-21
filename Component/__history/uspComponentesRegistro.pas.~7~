@@ -1,0 +1,26 @@
+unit uspComponentesRegistro;
+
+interface
+
+uses
+  uspQuery;
+
+
+{$IFDEF LIVE_SERVER_AT_DESIGN_TIME}
+type
+    TspQuery = class;
+{$ENDIF}
+
+procedure Register;
+
+implementation
+
+uses
+   System.Classes;
+
+procedure Register;
+begin
+  RegisterComponents('spComponentes', [TspQuery]);
+end;
+
+end.
