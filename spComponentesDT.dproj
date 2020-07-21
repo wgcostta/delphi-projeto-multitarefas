@@ -87,9 +87,9 @@
         <DCC_DcpOutput>.\Lib</DCC_DcpOutput>
         <DCC_BplOutput>.\Lib</DCC_BplOutput>
         <DCC_UnitSearchPath>.\Bin;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <DCC_UnitAlias>.\Lib;$(DCC_UnitAlias)</DCC_UnitAlias>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_DcuOutput>.\Lib</DCC_DcuOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>

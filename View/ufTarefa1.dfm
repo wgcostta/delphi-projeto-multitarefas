@@ -74,12 +74,23 @@ inherited Tarefa1: TTarefa1
     Top = 83
     Width = 145
     Height = 30
-    Caption = 'Gerar SQL'
+    Action = ACT_GERARSQL
     TabOrder = 3
-    OnClick = btnGerarSQLClick
   end
   object spQuery1: TspQuery
-    Left = 560
-    Top = 32
+    Left = 544
+    Top = 128
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    Left = 528
+    Top = 8
+  end
+  object ActionList1: TActionList
+    Left = 552
+    Top = 8
+    object ACT_GERARSQL: TAction
+      Caption = 'Gerar SQL'
+      OnExecute = ACT_GERARSQLExecute
+    end
   end
 end

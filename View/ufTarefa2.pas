@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ChildWin, Vcl.StdCtrls, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ChildWin, Vcl.StdCtrls, Vcl.ComCtrls,
+  System.Actions, Vcl.ActnList;
 
 type
   TTarefa2 = class(TMDIChild)
@@ -14,8 +15,14 @@ type
     btnIniciar: TButton;
     Label1: TLabel;
     Label2: TLabel;
-    procedure btnIniciarClick(Sender: TObject);
+    ActionList1: TActionList;
+    ACT_INICIAR: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edtContadorThreadKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtTempoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure ACT_INICIARExecute(Sender: TObject);
   private
     FMyThread: TThread;
     property  MyThread: TThread read FMyThread write FMyThread;
@@ -33,10 +40,26 @@ implementation
 
 {$R *.dfm}
 
-procedure TTarefa2.btnIniciarClick(Sender: TObject);
+procedure TTarefa2.ACT_INICIARExecute(Sender: TObject);
 begin
   inherited;
    processarThread;
+end;
+
+procedure TTarefa2.edtContadorThreadKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+   if Key = VK_RETURN then
+      perform(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TTarefa2.edtTempoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+   if Key = VK_RETURN then
+      perform(WM_NEXTDLGCTL,0,0);
 end;
 
 procedure TTarefa2.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -50,16 +73,18 @@ procedure TTarefa2.processarThread;
 var
   iContadorThread, iContadorMiliSegundos : Integer;
 begin
-   if edtTempo.Text = EmptyStr then
-   begin
-      ShowMessage('Informe um tempo em MiliSegundos');
-      edtTempo.SetFocus;
-   end;
-
    if edtContadorThread.Text = EmptyStr then
    begin
       ShowMessage('Informe a quantidade de Threads');
       edtContadorThread.SetFocus;
+      Exit;
+   end;
+
+   if edtTempo.Text = EmptyStr then
+   begin
+      ShowMessage('Informe um tempo em milissegundos');
+      edtTempo.SetFocus;
+      Exit;
    end;
 
   ProgressBar1.Position :=  0;

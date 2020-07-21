@@ -72,7 +72,6 @@ end;
 function TspQuery.GeraSQL : string;
 var
   iContador : Integer;
-  SQL : String;
 begin
     if spTabelas.Count > 1 then
        raise Exception.Create('Não permitido informar mais de uma tabela.')
@@ -86,27 +85,29 @@ begin
 
      for iContador := 0 to Pred(spColunas.Count) do
      begin
-        if SQL <> EmptyStr then
-           SQL := SQL + ',' + sLineBreak;
+        if Self.SQL.Text <> EmptyStr then
+           Self.SQL.Text := Self.SQL.Text + ',' + sLineBreak;
 
-         SQL := SQL + spColunas[iContador]
+         Self.SQL.Text := Self.SQL.Text + spColunas[iContador]
      end;
 
-     SQL := SQL + ' FROM ' + spTabelas[0];
+     Self.SQL.Text := Self.SQL.Text + ' FROM ' + spTabelas[0];
 
      for iContador := 0 to Pred(spCondicoes.Count) do
      begin
         if spCondicoes[iContador] <> EmptyStr then
         begin
           if iContador = 0 then
-             SQL := SQL + ' WHERE ' + spCondicoes[iContador]
+             Self.SQL.Text := Self.SQL.Text + ' WHERE ' + spCondicoes[iContador]
           else
-             SQL := SQL + ' AND ' + spCondicoes[iContador]
+             Self.SQL.Text := Self.SQL.Text + ' AND ' + spCondicoes[iContador]
         end;
      end;
 
-     SQL := StringReplace(SQL,',,',',',[rfReplaceAll,rfIgnoreCase]);
-     Result := AnsiUpperCase(SQL);
+     Self.SQL.Text := StringReplace(AnsiUpperCase(Self.SQL.Text),',,',',',[rfReplaceAll,rfIgnoreCase]);
+     Result := Self.SQL.Text;
 end;
+
+
 
 end.

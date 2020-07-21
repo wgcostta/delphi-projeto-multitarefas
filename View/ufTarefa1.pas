@@ -8,7 +8,8 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, uspQuery;
+  FireDAC.Comp.Client, uspQuery, FireDAC.Phys.MySQLDef, FireDAC.Phys,
+  FireDAC.Phys.MySQL, System.Actions, Vcl.ActnList;
 
 type
   TTarefa1 = class(TMDIChild)
@@ -21,8 +22,10 @@ type
     lblCondicoes: TLabel;
     lblGerarSQL: TLabel;
     spQuery1: TspQuery;
-
-    procedure btnGerarSQLClick(Sender: TObject);
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    ActionList1: TActionList;
+    ACT_GERARSQL: TAction;
+    procedure ACT_GERARSQLExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,15 +39,16 @@ implementation
 
 {$R *.dfm}
 
-procedure TTarefa1.btnGerarSQLClick(Sender: TObject);
+procedure TTarefa1.ACT_GERARSQLExecute(Sender: TObject);
 begin
   inherited;
-  try
+    try
+    Memo1.Text := '';
     spQuery1.spColunas.Text := memoColunas.Text;
     spQuery1.spTabelas.Text := memoTabelas.Text;
     spQuery1.spCondicoes.Text := memoCondicoes.Text;
-    Memo1.Text := spQuery1.GeraSQL;
-    spQuery1.SQL.Text := Memo1.Text;
+    spQuery1.GeraSQL;
+    Memo1.Text := spQuery1.SQL.Text;
   except
     on E: Exception do
     begin

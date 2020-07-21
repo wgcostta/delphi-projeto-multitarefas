@@ -60,4 +60,10 @@ begin
   inherited;
 end;
 
+initialization
+  RegisterClass(TspQuery);
+
+finalization
+  UnRegisterClass(TspQuery);
+
 end.
