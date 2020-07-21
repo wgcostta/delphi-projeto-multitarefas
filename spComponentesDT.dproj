@@ -85,8 +85,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <DCC_DcpOutput>.\Lib</DCC_DcpOutput>
-        <DCC_BplOutput>.\Lib</DCC_BplOutput>
-        <DCC_UnitSearchPath>.\Bin;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_BplOutput>.\Bin</DCC_BplOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_DcuOutput>.\Lib</DCC_DcuOutput>
